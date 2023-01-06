@@ -11,6 +11,32 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Npgsql.RawPostgis" Version="4.1.12" />
+    <PackageReference Include="Npgsql.GeoJSON" Version="7.0.1" />
+    <PackageReference Include="Npgsql" Version="7.0.1" />
+    <PackageReference Include="Npgsql.Json.NET" Version="7.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+    <PackageReference Include="Npgsql.NodaTime" Version="7.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    <PackageReference Include="Npgsql.NetTopologySuite" Version="7.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="7.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="7.0.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Npgsql.RawPostgis" />
+    <None Remove="Npgsql.GeoJSON" />
+    <None Remove="Npgsql" />
+    <None Remove="Npgsql.Json.NET" />
+    <None Remove="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <None Remove="Npgsql.NodaTime" />
+    <None Remove="Npgsql.EntityFrameworkCore.PostgreSQL.Design" />
+    <None Remove="Npgsql.NetTopologySuite" />
+    <None Remove="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
+    <None Remove="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" />
+    <None Remove="System.Configuration.ConfigurationManager" />
+  </ItemGroup>
 </Project>
