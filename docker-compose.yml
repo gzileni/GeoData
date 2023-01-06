@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   db:
-    container_name: wharp-postgis-${SERVER}
+    container_name: geodata-postgis-${SERVER}
     image: postgis/postgis:14-3.2-alpine
     restart: always
     environment:
@@ -24,8 +24,7 @@ services:
       - ./db-init-scripts:/docker-entrypoint-initdb.d
 
   pgAdmin:
-    # wharp-db.hextra.dev
-    container_name: wharp-pgadmin-${SERVER}
+    container_name: geodata-pgadmin-${SERVER}
     image: dpage/pgadmin4
     restart: always
     environment:
