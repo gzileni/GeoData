@@ -1,0 +1,141 @@
+version: '3.8'
+services:
+  db:
+    container_name: wharp-postgis-${SERVER}
+    image: postgis/postgis:14-3.2-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE_NAME}
+      PGPORT: ${PGPORT}
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U ${POSTGRES_DATABASE_NAME}' ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - ${PGPORT}:${PGPORT}
+    networks:
+      - wharp-network
+    command: sh -c "/usr/local/bin/docker-entrypoint.sh postgres"
+    volumes:
+      - .${PGDATA}:/var/lib/postgresql/data
+      - ./db-init-scripts:/docker-entrypoint-initdb.d
+
+  pgAdmin:
+    # wharp-db.hextra.dev
+    container_name: wharp-pgadmin-${SERVER}
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGPORT: ${PGPORT}
+    networks:
+      - wharp-network
+    ports:
+      - '8081:80'
+    depends_on:
+      - db
+      
+  overpass:
+    image: wiktorn/overpass-api
+    mem_reservation: 2G
+    restart: always
+    container_name: wharp-overpass-${SERVER}
+    environment:
+        OVERPASS_META: ${OVERPASS_META}
+        OVERPASS_MODE: ${OVERPASS_MODE}
+        OVERPASS_PLANET_URL: ${OVERPASS_PLANET_URL}
+        OVERPASS_DIFF_URL: ${OVERPASS_DIFF_URL}
+        OVERPASS_RULES_LOAD: ${OVERPASS_RULES_LOAD}
+        PGPORT: 5433
+    ports:
+        - "8082:80"
+        - "5433:5433"
+    volumes:
+        - ./data/overpass:/db
+    networks:
+      - wharp-network
+    depends_on:
+      - db
+
+  nominatim:
+    container_name: wharp-nominatim-${SERVER}
+    image: teamsviluppo/wharp-nominatim
+    restart: always
+    mem_reservation: 2G
+    ports:
+        - "8083:8080"
+        - "5432:5432"
+    environment:
+        PBF_PATH: /app/nord-ovest-latest.osm.pbf
+        REPLICATION_URL: ${REPLICATION_URL}
+        PGPORT: 5432
+    volumes:
+        - ./data/nominatim/db:/var/lib/postgresql/14/main
+        - ./data/nominatim/osm:/nominatim/data 
+    shm_size: 1gb
+    networks:
+      - wharp-network
+    depends_on:
+      - db
+
+  backend:
+    # wharp-backend.hextra.dev
+    container_name: wharp-backend-${SERVER}
+    image: teamsviluppo/wharp-backend
+    restart: always
+    environment:
+      SERVER: ${SERVER}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE_NAME: ${POSTGRES_DATABASE_NAME}
+      POSTGRES_URL: db
+      POSTGRES_PORT: ${PGPORT}
+      OVERPASS_API: ${OVERPASS_API}
+      NOMINATIM_URL: ${NOMINATIM_URL}
+      AWS_USER_POOL_ID: ${AWS_USER_POOL_ID}
+      AWS_CLIENT_ID: ${AWS_CLIENT_ID}
+      AWS_REGION: ${AWS_REGION}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_GOOGLE_CLIENT_ID: ${AWS_GOOGLE_CLIENT_ID}
+      AWS_GOOGLE_CLIENT_SECRET: ${AWS_GOOGLE_CLIENT_SECRET}
+      AWS_APPLE_CLIENT_ID: ${AWS_APPLE_CLIENT_ID}
+      AWS_APPLE_CLIENT_SECRET: ${AWS_APPLE_CLIENT_SECRET}
+      AWS_REDIRECT_URI: ${AWS_REDIRECT_URI}
+      AWS_APP_CLIENT_ID: ${AWS_APP_CLIENT_ID}
+      AWS_APP_SECRET_KEY: ${AWS_APP_SECRET_KEY}
+    depends_on:
+      - db
+    ports:
+      - '8201:3001'
+    networks:
+      - wharp-network
+
+  frontend:
+    # wharp.hextra.dev
+    container_name: wharp-frontend-${SERVER}
+    image: teamsviluppo/wharp-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - '8080:80'
+    networks:
+      - wharp-network
+
+networks:
+   wharp-network:
+      name: wharp
+      driver: bridge
+      ipam:
+         driver: default
+         config:
+            - subnet: 192.168.191.0/24
+
+volumes:
+  db:
+    driver: local

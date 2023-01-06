@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1704.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoData", "GeoData\GeoData.csproj", "{3AA45D2E-229C-407E-B882-BAE01A86ADCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3AA45D2E-229C-407E-B882-BAE01A86ADCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AA45D2E-229C-407E-B882-BAE01A86ADCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AA45D2E-229C-407E-B882-BAE01A86ADCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AA45D2E-229C-407E-B882-BAE01A86ADCA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6697ABEB-968B-4868-9E52-1E81F9E01B64}
+	EndGlobalSection
+EndGlobal
