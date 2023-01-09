@@ -12,12 +12,11 @@ publish-stack:
 	@echo --- publish stack finished ---
 	
 publish-production: publish-stack
-	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file CentriStorici --schema gis
-	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file EdificatoAnte1945 --schema gis
-	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file HPH_Mosaicatura_ISPRA_2020_pericolosita_idraulica_elevata --schema gis
-	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file LPH_Mosaicatura_ISPRA_2020_pericolosita_idraulica_bassa --schema gis
-	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file LPH_Mosaicatura_ISPRA_2020_pericolosita_idraulica_bassa --schema gis
-	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file Mosaicatura_ISPRA_2020_2021_aree_pericolosita_frana_PAI --schema gis
-	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file MPH_Mosaicatura_ISPRA_2020_pericolosita_idraulica_media --schema gis
+	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file oldtown --schema gis
+	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file build45 --schema gis
+	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file idro_h --schema gis
+	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file idro_l --schema gis
+	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file idro_m --schema gis
+	docker run --network geodata --env-file .env -e PGHOST=db gzileni/geodata-import python3 shape.py --file landsli --schema gis
 	@echo --- publish data finished ---
 
