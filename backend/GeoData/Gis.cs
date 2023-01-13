@@ -1,6 +1,8 @@
-﻿namespace GeoData;
+﻿using System.Data.Common;
 
-public class WeatherForecast
+namespace GeoData;
+
+public class Gis
 {
     public DateOnly Date { get; set; }
 
@@ -9,5 +11,10 @@ public class WeatherForecast
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
     public string? Summary { get; set; }
+
+    public async Task getListGis ()
+    {
+        
+    }
 }
 

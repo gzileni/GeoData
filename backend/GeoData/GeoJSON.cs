@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace GeoData
 {
 	public class GeoJSON
